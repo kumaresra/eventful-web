@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background: #e3e3d8;
+  font-family: sans-serif;
+}
+.wrapper {
+  height: 100vh;
+  display: flex;
+
+  /* Direction of the items, can be row or column */
+  flex-direction: column;
+}
+
+.header {
+  height: 60px;
+  color: red;
+  background-color: #cdcdcd;
+}
+.footer {
+  height: 30px;
+}
+
+main {
+  flex: 1;
+}

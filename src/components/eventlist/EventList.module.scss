@@ -1,0 +1,31 @@
+.card {
+  border: 1px Solid darkgray;
+}
+
+.container {
+  padding: 10px;
+}
+
+.cardText {
+  display: inline-grid;
+  .btn {
+    padding: 20px;
+  }
+}
+.events {
+  text-align: left;
+}
+.headerCont {
+  display: flex;
+  margin: 10px;
+}
+.p {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    
+  }
+}
+.searchBox {
+  margin-left: 20px;
+}
