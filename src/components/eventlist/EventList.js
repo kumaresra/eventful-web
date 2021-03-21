@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const EventList = ({ events, cartItems }) => {
+const EventList = ({ events }) => {
   const classes = useStyles();
 
   
@@ -35,7 +35,6 @@ const EventList = ({ events, cartItems }) => {
               return <EventListItem
                 key={product.id}
                 event={product}
-                cartItems={cartItems}
               />
 
             })

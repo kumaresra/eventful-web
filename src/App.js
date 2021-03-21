@@ -12,7 +12,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import Button from '@material-ui/core/Button';
 
-import 'date-fns';
+//import 'date-fns';
+import { format } from "date-fns";
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -71,8 +72,8 @@ const App = () => {
   const initData = async () => {
 
     const [categoryList, locationList] = await Promise.all([
-      axios.get(`https://eventfulness.herokuapp.com/api/categories`),
-      axios.get(`https://eventfulness.herokuapp.com/api/locations`)
+      axios.get(`https://eventful-server.herokuapp.com/api/categories`),
+      axios.get(`https://eventful-server.herokuapp.com/api/locations`)
     ]);
     setCategories(categoryList.data || []);
     setLocations(locationList.data || []);
@@ -87,9 +88,10 @@ const App = () => {
       ["loc"]: locationList.data[0]
     });
 
-    
+    let fromDate = format(new Date(), "yyyy-MM-dd");
+    let toDate = format(maxDate, "yyyy-MM-dd"); 
     // as setstate is asynchronous , we are passing category and location
-    let eventUrl = buildEventRequestUrl(categoryList.data[0],locationList.data[0]);
+    let eventUrl = buildEventRequestUrl(categoryList.data[0],locationList.data[0],fromDate,toDate);
     
     axios.get(eventUrl).then((res) => {
       res.data.sort((a, b) => a.category.localeCompare(b.category));
@@ -98,13 +100,10 @@ const App = () => {
 
   };
 
-  const buildEventRequestUrl= (category,location)=>{
+  const buildEventRequestUrl= (category,location,fromDate,ToDate)=>{
     let cat=category||cateState.cat;
     let loc=location||state.loc;
-    let from = new Date(selectedFromDate).getTime();
-    let to = new Date(selectedToDate).getTime();
-    let defaultDate = `${from}-${to}`;
-    let eventUrl = `https://eventfulness.herokuapp.com/api/events?category=${cat}&fromDateTime=${defaultDate}&location=${loc}`;
+    let eventUrl = ` https://eventful-server.herokuapp.com/api/events?category=${cat}&fromDateTime=${fromDate}&toDateTime=${ToDate}&location=${loc}`;
     return eventUrl;
   }
 
@@ -148,8 +147,17 @@ const App = () => {
   };
 
   const handleSearchClick = event => {
-    let eventUrl = buildEventRequestUrl();
+    let cat=cateState.cat;
+    let loc=state.loc;
+    //let fromDate = new Date(selectedFromDate).getTime();
+    //let toDate = new Date(selectedToDate).getTime();
+
+    let fromDate = format(selectedFromDate, "yyyy-MM-dd");
+    let toDate = format(selectedToDate, "yyyy-MM-dd"); 
+    
+    let eventUrl = buildEventRequestUrl(cat,loc,fromDate,toDate);
     axios.get(eventUrl).then((res) => {
+      debugger;
       res.data.sort((a, b) => a.category.localeCompare(b.category));
       setEvents(res.data);
     });
@@ -283,7 +291,7 @@ const App = () => {
           />
         </div>
       </div>
-      <div className="header">
+      <div>
         <Footer />
       </div>
     </div>

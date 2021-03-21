@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,7 +9,7 @@
 html,
 body {
   background: #e3e3d8;
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 .wrapper {
   height: 100vh;
